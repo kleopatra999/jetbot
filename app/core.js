@@ -22,6 +22,11 @@ function *core(request) {
     return;
   }
 
+  if (text == 'test rich') {
+    yield* sendMessage.rich({mid, text: 'test message', imageUrl: 'http://pics.avs.io/240/240/PG.png', targetUrl: 'http://www.jetradar.com/'});
+    return;
+  }
+
   console.log('REQUEST'.yellow, text);
 
   // Split text to words.
