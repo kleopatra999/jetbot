@@ -13,20 +13,24 @@ function *bot(next) {
   let fromId = result.from;
   let userMid = result.content.from;
 
+
+  console.log(result.content.text)
   let suggest = yield* getSuggest(result.content.text);
+
+  console.log(suggest)
 
 
   console.log(suggest[0].title);
 
   // console.log(this.request.body);
   // console.log(result.from);
-  console.log(result.content);
+  // console.log(result.content);
 
-  yield* send('Hello, world', {
-    channelMid: fromId,
-    userMid: userMid,
-    text: suggest[0].title
-  });
+  // yield* send('Hello, world', {
+  //   channelMid: fromId,
+  //   userMid: userMid,
+  //   text: suggest[0].title
+  // });
 }
 
 function *getSuggest(query) {
