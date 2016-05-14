@@ -11,9 +11,11 @@ function *notifyBot() {
   let title = notification.title;
   let text = `We've found a ticket! ${title}. Depart date is ${departDate}; return date is ${returnDate}`;
 
+  console.log(notification)
+  console.log(mid, text)
   textMessage({
     mid: mid,
-    text: title
+    text: text
   })
 
   this.body = {
