@@ -131,8 +131,8 @@ function *core(request) {
 
       let suggestOrigin = yield* getSuggest(text);
       if (suggestOrigin[0]) {
-        context.originName = suggestOrigin[0].title;
-        context.originIata = suggestOrigin[0].code;
+        context.originName = suggestOrigin[0].city_name;
+        context.originIata = suggestOrigin[0].city_code;
       }
 
       yield* detectNextState();
@@ -143,8 +143,8 @@ function *core(request) {
 
       let suggestDestination = yield* getSuggest(text);
       if (suggestDestination[0]) {
-        context.destinationName = suggestDestination[0].title;
-        context.destinationIata = suggestDestination[0].code;
+        context.destinationName = suggestDestination[0].city_name;
+        context.destinationIata = suggestDestination[0].city_code;
       }
 
       yield* detectNextState();
@@ -199,11 +199,13 @@ function *parsePlace(preposition, words) {
   if (~from && from + 1 < words.length) {
     // Try with two words first.
     let text = words[from + 1] + ' ' + (words[from + 2] || '');
+
     let suggest = yield* getSuggest(text);
     if (suggest[0]) {
+
       return {
-        name: suggest[0].title,
-        iata: suggest[0].code
+        name: suggest[0].city_name,
+        iata: suggest[0].city_code
       }
     }
 
@@ -212,8 +214,8 @@ function *parsePlace(preposition, words) {
     suggest = yield* getSuggest(text);
     if (suggest[0]) {
       return {
-        name: suggest[0].title,
-        iata: suggest[0].code
+        name: suggest[0].city_name,
+        iata: suggest[0].city_code
       }
     }
   }
