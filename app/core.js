@@ -30,7 +30,12 @@ function *core(request) {
   }
 
   if (text == 'test rich') {
-    yield* richMessage({mid, text: 'test message', imageUrl: 'http://beta.jetradar.com/graph.png?w=240&h=240&last_prices=257&average_price=327', targetUrl: 'http://www.jetradar.com/'});
+    yield* richMessage({
+      mid,
+      text: 'test message',
+      imageUrl: 'http://beta.jetradar.com/graph.png?w=240&h=240&last_prices=257&average_price=327',
+      targetUrl: 'http://www.jetradar.com/'
+    });
     return;
   }
 
@@ -77,7 +82,10 @@ function *core(request) {
     context.months = parseMonths(words);
 
     if (!isPartiallyFilled(context)) {
-      yield* textMessage({mid, text: `Hello, ${userName}!\nTell me your destination and where are you going. For example "I'm going to Phuket from Bangkok" or "what about from Bangkok to Tokyo?"`});
+      yield* textMessage({
+        mid,
+        text: `Hello, ${userName}!\nTell me your destination and where are you going. For example "I'm going to Phuket from Bangkok" or "what about from Bangkok to Tokyo?"`
+      });
     }
 
   } else {
@@ -246,7 +254,7 @@ function parseMonths(words) {
 
 function monthsToString(months, short) {
   short = short || false;
-  return months.map(i => (short ? MONTHS_SHORT : MONTHS)[i]).join(', ');
+  return months.map(i => capitalize((short ? MONTHS_SHORT : MONTHS)[i])).join(', ');
 }
 
 function isFilled(context) {
@@ -255,6 +263,10 @@ function isFilled(context) {
 
 function isPartiallyFilled(context) {
   return context.originName || context.destinationName || context.months.length;
+}
+
+function capitalize(s) {
+  return s && s[0].toUpperCase() + s.slice(1);
 }
 
 module.exports = core;
