@@ -20,10 +20,16 @@ function *core(request) {
 
   if (opType == 4) {
     mid = request.content.params[0];
+    let userName = yield* getUserName(mid);
+
+    yield* textMessage({
+      mid,
+      text: `Hello, ${userName}!\nTell me your destination and where are you going. For example "I'm going to Phuket from Bangkok" or "what about from Bangkok to Tokyo?"`
+    });
+    return;
   }
 
   let context = null;
-  let userInfo = null;
 
   console.log('REQUEST', request);
 
@@ -32,27 +38,13 @@ function *core(request) {
     return;
   }
 
-  if (opType == 1 && !text) {
+  if (!text) {
     console.log('ERROR', 'Empty text');
     return;
   }
 
-  let userName = '';
+  let userName = yield* getUserName(mid);
 
-  try {
-    userInfo = yield* getUserInfo(mid);
-    userName = userInfo.contacts[0].displayName;
-  } catch (e) {
-    userName = 'friend';
-  }
-
-  if (opType == 4) {
-    yield* textMessage({
-      mid,
-      text: `Hello, ${userName}!\nTell me your destination and where are you going. For example "I'm going to Phuket from Bangkok" or "what about from Bangkok to Tokyo?"`
-    });
-    return;
-  }
 
   if (text == 'test rich') {
     yield* richMessage({
@@ -286,6 +278,19 @@ function isFilled(context) {
 
 function capitalize(s) {
   return s && s[0].toUpperCase() + s.slice(1);
+}
+
+function *getUserName(mid) {
+  let userName;
+
+  try {
+    let userInfo = yield* getUserInfo(mid);
+    userName = userInfo.contacts[0].displayName;
+  } catch (e) {
+    userName = 'friend';
+  }
+
+  return userName;
 }
 
 module.exports = core;
