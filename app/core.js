@@ -1,6 +1,7 @@
 "use strict";
 const getSuggest = require('./get_suggest');
 const sendMessage = require('./send_message');
+const getUserInfo = require('./send_message');
 
 // TODO: Clean context after 1h timeout;
 let store = {};
@@ -36,6 +37,9 @@ function *core(request) {
       destinationIata: '',
       months: []
     };
+
+    let userInfo = getUserInfo(mid);
+    console.log(userInfo && userInfo.displayName, ', biatch');
 
     yield* sendMessage({mid, text: 'Hello! Where are you going to flight from?'});
     return;
