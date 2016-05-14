@@ -12,7 +12,7 @@ function *getUserInfo(mids) {
     json: true
   };
 
-  console.log(options)
+  console.log('mids! ', mids)
 
   return yield request(options);
 }

@@ -1,7 +1,7 @@
 "use strict";
 const getSuggest = require('./get_suggest');
 const sendMessage = require('./send_message');
-const getUserInfo = require('./send_message');
+const getUserInfo = require('./user_info');
 
 // TODO: Clean context after 1h timeout;
 let store = {};
