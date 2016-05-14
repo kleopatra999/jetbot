@@ -132,20 +132,16 @@ function *linkMessage(params) {
       'toChannel': 1341301715,
       'eventType': '137299299800026303',
       'content': {
-        'templateId': 'price_alert_02',
+        'templateId': 'price_alert_03',
         'previewUrl': params.imageUrl,
         'textParams': {
           'text': params.text
         },
-        "aLinkUriParams":{
-              "alu_p":"foo"
-            },
-            "iLinkUriParams":{
-              "ilu_p":"bar"
-            },
-            "linkUriParams":{
-              "lu_p": params.targetUrl
-            }
+        "linkUriParams":{
+          "lu_p": params.targetUrl,
+          "param": 'test',
+          "paramara": '12345'
+        }
       }
     },
     json: true
