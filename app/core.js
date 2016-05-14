@@ -16,6 +16,12 @@ let STATE_FINISH = 'STATE_FINISH';
 function *core(request) {
   let mid = request.content.from;
   let text = request.content.text;
+  let opType = request.content.opType;
+
+  if (opType == 4) {
+    mid = request.content.params[0];
+  }
+
   let context = null;
   let userInfo = null;
 
@@ -26,8 +32,25 @@ function *core(request) {
     return;
   }
 
-  if (!text) {
+  if (opType == 1 && !text) {
     console.log('ERROR', 'Empty text');
+    return;
+  }
+
+  let userName = '';
+
+  try {
+    userInfo = yield* getUserInfo(mid);
+    userName = userInfo.contacts[0].displayName;
+  } catch (e) {
+    userName = 'friend';
+  }
+
+  if (opType == 4) {
+    yield* textMessage({
+      mid,
+      text: `Hello, ${userName}!\nTell me your destination and where are you going. For example "I'm going to Phuket from Bangkok" or "what about from Bangkok to Tokyo?"`
+    });
     return;
   }
 
@@ -60,15 +83,6 @@ function *core(request) {
       months: []
     };
 
-    let userName = '';
-
-    try {
-      userInfo = yield* getUserInfo(mid);
-      userName = userInfo.contacts[0].displayName;
-    } catch (e) {
-      userName = 'friend';
-    }
-
     let origin = yield* parsePlace('from', words);
     if (origin) {
       context.originName = origin.name;
@@ -82,13 +96,6 @@ function *core(request) {
     }
 
     context.months = parseMonths(words);
-
-    if (!isPartiallyFilled(context)) {
-      yield* textMessage({
-        mid,
-        text: `Hello, ${userName}!\nTell me your destination and where are you going. For example "I'm going to Phuket from Bangkok" or "what about from Bangkok to Tokyo?"`
-      });
-    }
 
   } else {
     context = store[mid];
