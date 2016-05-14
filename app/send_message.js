@@ -41,7 +41,8 @@ send.image = function *image(params) {
       'content': {
         'contentType': 2,
         'toType': 1,
-        'originalContentUrl': params.url
+        'originalContentUrl': params.url,
+        'previewImageUrl': params.url
       }
     },
     json: true
