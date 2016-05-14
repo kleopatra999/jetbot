@@ -284,10 +284,6 @@ function isFilled(context) {
   return context.originName && context.destinationName && context.months.length;
 }
 
-function isPartiallyFilled(context) {
-  return context.originName || context.destinationName || context.months.length;
-}
-
 function capitalize(s) {
   return s && s[0].toUpperCase() + s.slice(1);
 }
