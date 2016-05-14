@@ -120,6 +120,30 @@ function *richMessage(params) {
   yield request(options);
 }
 
+function *linkMessage(params) {
+  const options = {
+    method: 'POST',
+    url: 'https://api.line.me/v1/events',
+    headers: {
+      'X-LINE-ChannelToken': LINE_CHANNEL_TOKEN
+    },
+    body: {
+      'to': [params.mid],
+      'toChannel': 1341301715,
+      'eventType': '137299299800026303',
+      'content': {
+        'templateId': 'price_alert',
+        'previewUrl': params.imageUrl,
+        'textParams': params.text,
+        'linkUriParams': params.targetUrl
+      }
+    },
+    json: true
+  };
+
+  yield request(options);
+}
+
 if (process.env.NODE_ENV != 'production') {
   module.exports = {
     textMessage: function *(params) {
@@ -127,12 +151,16 @@ if (process.env.NODE_ENV != 'production') {
     },
     richMessage: function *(params) {
       console.log('RICH SEND'.blue, params.text);
+    },
+    linkMessage: function *(params) {
+      console.log('LINK SEND'.red, params.text);
     }
   }
 } else {
   module.exports = {
     textMessage: textMessage,
     richMessage: richMessage,
-    imageMessage: imageMessage
+    imageMessage: imageMessage,
+    linkMessage: linkMessage
   };
 }

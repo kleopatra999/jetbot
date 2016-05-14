@@ -1,6 +1,6 @@
 "use strict";
 const getSuggest = require('./get_suggest');
-const {textMessage, richMessage} = require('./send_message');
+const {textMessage, richMessage, linkMessage} = require('./send_message');
 const getUserInfo = require('./user_info');
 const createSubscription = require('./create_subscription');
 
@@ -52,6 +52,16 @@ function *core(request) {
       text: 'test message',
       imageUrl: 'http://beta.jetradar.com/graph.png?w=240&h=240&last_prices=257&average_price=327',
       targetUrl: 'http://www.jetradar.com/'
+    });
+    return;
+  }
+
+  if (text == 'test link') {
+    yield* linkMessage({
+      mid,
+      text: 'link message',
+      imageUrl: 'http://beta.jetradar.com/graph.png?w=240&h=240&last_prices=257&average_price=327',
+      targetUrl: 'http://www.jetradar.co.th/?locale=en'
     });
     return;
   }
