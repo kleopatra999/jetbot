@@ -1,5 +1,6 @@
 "use strict";
 const getSuggest = require('./get_suggest');
+const sendMessage = require('./send_message');
 
 // TODO: Clean context after 1h timeout;
 let store = {};
@@ -17,21 +18,39 @@ function *core(request) {
       destinationIata: '',
       months: []
     };
+
+    yield* sendMessage({mid, text: 'Hello! Where are you going to flight from?'});
+    return;
   } else {
     context = store[mid];
   }
 
-  let suggest = yield* getSuggest(text);
+  if(!context.originName) {
+    let suggest = yield* getSuggest(text);
+    context.originName = suggest[0] && suggest[0].title;
+    context.originIata = suggest[0] && suggest[0].code;
 
-  store[mid].originName = suggest[0] && suggest[0].title;
+    yield* sendMessage({mid, text: `Okay, flight from ${context.originName}`});
+    yield* sendMessage({mid, text: `Where are you going to?`});
+  } else if(!context.destinationName) {
+    let suggest = yield* getSuggest(text);
+    context.destinationName = suggest[0] && suggest[0].title;
+    context.destinationIata = suggest[0] && suggest[0].code;
 
-  if (isFilled(store[mid])) {
-    // TODO: create price alert.
-  } else {
-    if (!origin) {
-      store[mid].expect = 'origin';
-    }
+    yield* sendMessage({mid, text: `Okay, flight to ${context.destinationName}`});
+    yield* sendMessage({mid, text: `When?`});
+  } else if(content.months) {
+    context.months = [1,2,3];
   }
+
+  if (isFilled(context)) {
+    //
+    yield* sendMessage({mid, text: `Okay, i say you when cheap price`});
+  }
+}
+
+function isFilled(context) {
+  return ;
 }
 
 module.exports = core;

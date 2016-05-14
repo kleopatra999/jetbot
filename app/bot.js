@@ -10,21 +10,14 @@ function *bot() {
   let userMid = result.content.from;
   let response = yield* core(result);
 
-  if (userMid == 'local') {
-    this.body = {
-      ok: true,
-      text: response
-    };
-  } else {
-    yield* sendMessage({
-      userMid: userMid,
-      text: response
-    });
+  yield* sendMessage({
+    mid: userMid,
+    text: response
+  });
 
-    this.body = {
-      ok: true
-    };
-  }
+  this.body = {
+    ok: true
+  };
 }
 
 module.exports = bot;

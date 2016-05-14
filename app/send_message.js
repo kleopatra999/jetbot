@@ -9,7 +9,7 @@ function *send(params) {
       'X-LINE-ChannelToken': LINE_CHANNEL_TOKEN
     },
     body: {
-      'to': [ params.userMid ],
+      'to': [params.mid],
       'toChannel': 1383378250,
       'eventType': '138311608800106203',
       'content': {
@@ -24,4 +24,10 @@ function *send(params) {
   yield request(options);
 }
 
-module.exports = send;
+if (process.env.NODE_ENV != 'production') {
+  module.exports = function *(params) {
+    console.log('SEND', params.text);
+  };
+} else {
+  module.exports = send;
+}
