@@ -12,6 +12,8 @@ function *getUserInfo(mids) {
     json: true
   };
 
+  console.log(options)
+
   return yield request(options);
 }
 
