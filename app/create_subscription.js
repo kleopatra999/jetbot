@@ -22,15 +22,7 @@ function *createSubscription(params) {
     raw_rules: formParams
   }));
 
-  let url = `http://beta.jetradar.com/subscriptions/create?email=${email}
-    &activate_subscriber=true
-    &recieve_news=false
-    &web_push_enabled=false
-    &email_enabled=false
-    &line_enabled=true
-    &line_id=${params.mid}
-    &subscription=${subscriptionParams}
-    &lang=en`;
+  let url = `http://beta.jetradar.com/subscriptions/create?email=${email}&activate_subscriber=true&recieve_news=false&web_push_enabled=false&email_enabled=false&line_enabled=true&line_id=${params.mid}&subscription=${subscriptionParams}&lang=en`;
 
   try {
     console.log(url);
