@@ -49,10 +49,16 @@ function *core(request) {
     }
 
     let origin = yield* parsePlace('from', words);
-    console.log('ORIGIN', origin);
+    if (origin) {
+      context.originName = origin.name;
+      context.originIata = origin.iata;
+    }
 
     let destination = yield* parsePlace('to', words);
-    console.log('DESTINATION', destination);
+    if (destination) {
+      context.destinationName = destination.name;
+      context.destinationIata = destination.iata;
+    }
 
     yield* sendMessage({mid, text: `Hello, ${userName}! Where are you going to flight FROM?`});
     return;
@@ -103,8 +109,19 @@ function *parsePlace(preposition, words) {
   let from = words.indexOf(preposition);
 
   if (~from && from + 1 < words.length) {
-    let text = words[from + 1] + (words[from + 2] || '');
+    // Try with two words first.
+    let text = words[from + 1] + ' ' +(words[from + 2] || '');
     let suggest = yield* getSuggest(text);
+    if (suggest[0]) {
+      return {
+        name: suggest[0].title,
+        iata: suggest[0].code
+      }
+    }
+
+    // Try with one.
+    text = words[from + 1];
+    suggest = yield* getSuggest(text);
     if (suggest[0]) {
       return {
         name: suggest[0].title,
