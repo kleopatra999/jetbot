@@ -1,14 +1,14 @@
 "use strict";
 const request = require('request-promise');
-const sendMessage = require('./send_message');
+const {sendMessage} = require('./send_message');
 
 function *notifyBot() {
-  console.log('wut');
-  console.log(this.request.body);
-  // let result = this.request.body.result[0];
-  // let userMid = result.content.from;
-  // let response = yield* core(result);
+  let notification = this.request.body;
 
+  let mid = notification.id;
+  let departDate = notification.departDate;
+  let returnDate = notification.returnDate;
+  let title = notification.title;
 
   this.body = {
     ok: true
@@ -16,6 +16,3 @@ function *notifyBot() {
 }
 
 module.exports = notifyBot;
-
-
-//

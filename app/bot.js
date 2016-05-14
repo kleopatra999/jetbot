@@ -2,7 +2,6 @@
 const request = require('request-promise');
 
 const core = require('./core');
-const sendMessage = require('./send_message');
 
 function *bot() {
   let result = this.request.body.result[0];

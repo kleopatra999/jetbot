@@ -1,6 +1,6 @@
 "use strict";
 const getSuggest = require('./get_suggest');
-const sendMessage = require('./send_message');
+const {textMessage, richMessage} = require('./send_message');
 const getUserInfo = require('./user_info');
 const createSubscription = require('./create_subscription');
 
@@ -24,7 +24,7 @@ function *core(request) {
   }
 
   if (text == 'test rich') {
-    yield* sendMessage.rich({mid, text: 'test message', imageUrl: 'http://pics.avs.io/240/240/PG.png', targetUrl: 'http://www.jetradar.com/'});
+    yield* richMesage({mid, text: 'test message', imageUrl: 'http://pics.avs.io/240/240/PG.png', targetUrl: 'http://www.jetradar.com/'});
     return;
   }
 
@@ -66,7 +66,7 @@ function *core(request) {
       context.destinationIata = destination.iata;
     }
 
-    yield* sendMessage({mid, text: `Hello, ${userName}! Where are you going to flight FROM?`});
+    yield* textMessage({mid, text: `Hello, ${userName}! Where are you going to flight FROM?`});
     return;
   } else {
     context = store[mid];
@@ -77,15 +77,15 @@ function *core(request) {
     context.originName = suggest[0] && suggest[0].title;
     context.originIata = suggest[0] && suggest[0].code;
 
-    yield* sendMessage({mid, text: `Okay, flight from ${context.originName}.`});
-    yield* sendMessage({mid, text: `Where are you going to?`});
+    yield* textMessage({mid, text: `Okay, flight from ${context.originName}.`});
+    yield* textMessage({mid, text: `Where are you going to?`});
   } else if (!context.destinationName) {
     let suggest = yield* getSuggest(text);
     context.destinationName = suggest[0] && suggest[0].title;
     context.destinationIata = suggest[0] && suggest[0].code;
 
-    yield* sendMessage({mid, text: `Okay, flight to ${context.destinationName}.`});
-    yield* sendMessage({mid, text: `When?`});
+    yield* textMessage({mid, text: `Okay, flight to ${context.destinationName}.`});
+    yield* textMessage({mid, text: `When?`});
   } else if (context.months) {
     const months = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
     const monthsShort = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
@@ -102,12 +102,12 @@ function *core(request) {
       }
     });
 
-    yield* sendMessage({mid, text: `Okay, i will search flights in ${context.months.map(i => months[i]).join(', ')}.`});
+    yield* textMessage({mid, text: `Okay, i will search flights in ${context.months.map(i => months[i]).join(', ')}.`});
   }
 
   if (isFilled(context)) {
     let params = store[mid]
-    yield* sendMessage({mid, text: `Okay, i say you when cheap price`});
+    yield* textMessage({mid, text: `Okay, i say you when cheap price`});
     let result = yield* createSubscription({
       mid: mid,
       origin: {iata: params.originIata},

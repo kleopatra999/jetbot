@@ -2,7 +2,7 @@
 const request = require('request-promise');
 const LINE_CHANNEL_TOKEN = '6BlHqpsKmwNPlxSbppx1bxDVIvqmJD3wGk8/+XYAs5gSaTaUivxeImbm+37rKU1qNgwg8FD09QsYIjbHc6Tvqptn186izvhKQqqBMMFOaB+xMikqtRnU5ds9zpq3k2ZpyY89kiBglxxZl0qvUrdyX618BSl7lGXPAT9HRw/DX2c=';
 
-function *send(params) {
+function *textMessage(params) {
   const options = {
     method: 'POST',
     url: 'https://api.line.me/v1/events',
@@ -27,7 +27,7 @@ function *send(params) {
   yield request(options);
 }
 
-send.image = function *image(params) {
+function *imageMessage(params) {
   const options = {
     method: 'POST',
     url: 'https://api.line.me/v1/events',
@@ -53,7 +53,7 @@ send.image = function *image(params) {
   yield request(options);
 }
 
-send.rich = function *rich(params) {
+function *richMessage(params) {
   const options = {
     method: 'POST',
     url: 'https://api.line.me/v1/events',
@@ -132,5 +132,9 @@ if (process.env.NODE_ENV != 'production') {
     console.log('SEND'.green, params.text);
   };
 } else {
-  module.exports = send;
+  module.exports = {
+    textMessage: textMessage,
+    richMessage: richMessage,
+    imageMessage: imageMessage
+  };
 }
