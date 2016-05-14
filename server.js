@@ -1,11 +1,13 @@
 "use strict";
 require('colors');
 const koa = require('koa');
+const body = require('koa-body');
 const router = require('./app/router');
 const logger = require('./app/middlewares/logger');
 
 const app = koa();
 app.use(logger);
+app.use(body());
 app.use(router.routes());
 
 const port = process.env.PORT || 3000;
