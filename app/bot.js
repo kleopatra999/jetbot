@@ -1,12 +1,9 @@
 "use strict";
-const LINE_CHANNEL_TOKEN = '6BlHqpsKmwNPlxSbppx1bxDVIvqmJD3wGk8/+XYAs5gSaTaUivxeImbm+37rKU1qNgwg8FD09QsYIjbHc6Tvqptn186izvhKQqqBMMFOaB+xMikqtRnU5ds9zpq3k2ZpyY89kiBglxxZl0qvUrdyX618BSl7lGXPAT9HRw/DX2c=';
 const request = require('request-promise');
 
-function *bot(next) {
-  this.body = {
-    ok: true
-  };
+const LINE_CHANNEL_TOKEN = '6BlHqpsKmwNPlxSbppx1bxDVIvqmJD3wGk8/+XYAs5gSaTaUivxeImbm+37rKU1qNgwg8FD09QsYIjbHc6Tvqptn186izvhKQqqBMMFOaB+xMikqtRnU5ds9zpq3k2ZpyY89kiBglxxZl0qvUrdyX618BSl7lGXPAT9HRw/DX2c=';
 
+function *bot() {
   let result = this.request.body.result[0];
   let userMid = result.content.from;
 
@@ -16,10 +13,23 @@ function *bot(next) {
   console.log(suggest)
   console.log(suggest[0]);
 
-  yield* send({
-    userMid: userMid,
-    text: suggest[0] && suggest[0].title || 'Sorry we haven\'t, found the place:('
-  });
+  let response = suggest[0] && suggest[0].title || 'Sorry we haven\'t, found the place:(';
+
+  if (userMid == 'local') {
+    this.body = {
+      ok: true,
+      text: response
+    };
+  } else {
+    yield* send({
+      userMid: userMid,
+      text: response
+    });
+
+    this.body = {
+      ok: true
+    };
+  }
 }
 
 function *getSuggest(query) {

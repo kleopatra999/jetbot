@@ -14,5 +14,6 @@ router.get('/ping', function *(next) {
 });
 
 router.post('/receive', require('./bot'));
+router.get('/test', require('./test'));
 
 module.exports = router;
