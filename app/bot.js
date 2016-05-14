@@ -25,10 +25,12 @@ function *bot(next) {
 function *getSuggest(query) {
   const autocompleteUrl = `http://www.jetradar.com/autocomplete/places?q=${query}&with_countries=false&locale=en`;
 
-  return yield request({
+  let response = yield request({
     method: 'GET',
     url: autocompleteUrl,
   });
+
+  return JSON.parse(response);
 }
 
 function *send(params) {
