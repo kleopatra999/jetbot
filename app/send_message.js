@@ -137,9 +137,15 @@ function *linkMessage(params) {
         'textParams': {
           'text': params.text
         },
-        'linkUriParams': {
-          'lu_p': params.targetUrl
-        }
+        "aLinkUriParams":{
+              "alu_p":"foo"
+            },
+            "iLinkUriParams":{
+              "ilu_p":"bar"
+            },
+            "linkUriParams":{
+              "lu_p":"baz"
+            }
       }
     },
     json: true
