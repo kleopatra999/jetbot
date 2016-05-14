@@ -34,13 +34,14 @@ function *core(request) {
     return;
   }
 
+  // Remove common words.
+  text = splitTextToWords(text).join(' ');
+  text = text.replace('want to', '');
+
   console.log('REQUEST'.yellow, text);
 
   // Split text to words.
-  let words = text
-    .toLowerCase()
-    .replace(/[^\w]/ig, ' ')
-    .split(/\s+/);
+  let words = splitTextToWords(text);
 
   if (!store.hasOwnProperty(mid)) {
     context = store[mid] = {
@@ -183,6 +184,13 @@ function *core(request) {
     console.log('SUBSCRIPTION CREATED'.green, `${context.originIata} -> ${context.destinationIata} [${monthsToString(context.months, true)}]`);
     delete store[mid];
   }
+}
+
+function splitTextToWords(text) {
+  return text
+    .toLowerCase()
+    .replace(/[^\w]/ig, ' ')
+    .split(/\s+/);
 }
 
 function *parsePlace(preposition, words) {
