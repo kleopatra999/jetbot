@@ -127,9 +127,13 @@ function *richMessage(params) {
 }
 
 if (process.env.NODE_ENV != 'production') {
-  module.exports = function *(params) {
-    console.log('SEND'.green, params.text);
-  };
+  module.exports = {
+    textMessage: function *(params) {
+      console.log('SEND'.green, params.text);
+    },
+    richMessage: function *(params) {
+      console.log('RICH SEND'.blue, params.text);
+    }
 } else {
   module.exports = {
     textMessage: textMessage,
