@@ -27,6 +27,31 @@ function *send(params) {
   yield request(options);
 }
 
+send.image = function *image(params) {
+  const options = {
+    method: 'POST',
+    url: 'https://api.line.me/v1/events',
+    headers: {
+      'X-LINE-ChannelToken': LINE_CHANNEL_TOKEN
+    },
+    body: {
+      'to': [params.mid],
+      'toChannel': 1383378250,
+      'eventType': '138311608800106203',
+      'content': {
+        'contentType': 2,
+        'toType': 1,
+        'originalContentUrl': params.url
+      }
+    },
+    json: true
+  };
+
+  console.log('OPTIONS', options);
+
+  yield request(options);
+}
+
 if (process.env.NODE_ENV != 'production') {
   module.exports = function *(params) {
     console.log('SEND'.green, params.text);

@@ -48,6 +48,11 @@ function *core(request) {
     context = store[mid];
   }
 
+  if (text == 'img') {
+    yield* sendMessage.image({min, url: "http://pics.avs.io/240/240/PG.png"});
+    return;
+  }
+
   if (!context.originName) {
     let suggest = yield* getSuggest(text);
     context.originName = suggest[0] && suggest[0].title;
