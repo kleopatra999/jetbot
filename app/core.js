@@ -2,6 +2,7 @@
 const getSuggest = require('./get_suggest');
 const sendMessage = require('./send_message');
 const getUserInfo = require('./user_info');
+const createSubscription = require('./create_subscription');
 
 // TODO: Clean context after 1h timeout;
 let store = {};
@@ -105,8 +106,17 @@ function *core(request) {
   }
 
   if (isFilled(context)) {
-    delete store[mid];
+    let params = store[mid]
     yield* sendMessage({mid, text: `Okay, i say you when cheap price`});
+    let result = yield* createSubscription({
+      mid: mid,
+      origin: {iata: params.originIata},
+      destination: {iata: params.destinationIata},
+      months: params.months
+    });
+    console.log(result);
+    console.log('success!');
+    delete store[mid];
   }
 }
 
