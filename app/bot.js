@@ -18,28 +18,21 @@ function *bot(next) {
   let suggest = yield* getSuggest(result.content.text);
 
   console.log(suggest)
-
-
   console.log(suggest[0].title);
 
-  // console.log(this.request.body);
-  // console.log(result.from);
-  // console.log(result.content);
-
-  // yield* send('Hello, world', {
-  //   channelMid: fromId,
-  //   userMid: userMid,
-  //   text: suggest[0].title
-  // });
+  yield* send('Hello, world', {
+    channelMid: fromId,
+    userMid: userMid,
+    text: suggest[0] && suggest[0].title || 'Sorry mista, place not found'
+  });
 }
 
 function *getSuggest(query) {
-  const autocompleteUrl = 'http://www.jetradar.com/autocomplete/places'
+  const autocompleteUrl = `http://www.jetradar.com/autocomplete/places?q=${query}&with_countries=false&locale=en`;
 
-  return yield request.get(autocompleteUrl, {
-    q: query,
-    with_countries: false,
-    locale: 'en'
+  return yield request({
+    method: 'GET',
+    url: autocompleteUrl,
   });
 }
 
