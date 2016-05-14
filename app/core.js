@@ -39,8 +39,20 @@ function *core(request) {
       months: []
     };
 
-    userInfo = yield* getUserInfo(mid);
-    let userName = userInfo.contacts[0].displayName;
+    let userName = '';
+
+    try {
+      userInfo = yield* getUserInfo(mid);
+      userName = userInfo.contacts[0].displayName;
+    } catch (e) {
+      userName = 'friend';
+    }
+
+    let origin = yield* parsePlace('from', words);
+    console.log('ORIGIN', origin);
+
+    let destination = yield* parsePlace('to', words);
+    console.log('DESTINATION', destination);
 
     yield* sendMessage({mid, text: `Hello, ${userName}! Where are you going to flight FROM?`});
     return;
@@ -68,11 +80,11 @@ function *core(request) {
 
     words.forEach((word) => {
       let month = months.indexOf(word);
-      if(month != -1) {
+      if (~month) {
         context.months.push(month);
       } else {
         let month = monthsShort.indexOf(word);
-        if (month != -1) {
+        if (~month) {
           context.months.push(month);
         }
       }
@@ -85,6 +97,23 @@ function *core(request) {
     delete store[mid];
     yield* sendMessage({mid, text: `Okay, i say you when cheap price`});
   }
+}
+
+function *parsePlace(preposition, words) {
+  let from = words.indexOf(preposition);
+
+  if (~from && from + 1 < words.length) {
+    let text = words[from + 1] + (words[from + 2] || '');
+    let suggest = yield* getSuggest(text);
+    if (suggest[0]) {
+      return {
+        name: suggest[0].title,
+        iata: suggest[0].code
+      }
+    }
+  }
+
+  return false;
 }
 
 function isFilled(context) {
