@@ -71,6 +71,50 @@ send.rich = function *rich(params) {
           'SPEC_REV': '1',
           'DOWNLOAD_URL': params.imageUrl,
           'ALT_TEXT': params.text,
+          'MARKUP_JSON': JSON.stringify({
+            'canvas': {
+              'width': 240,
+              'height': 240,
+              'initialScene': 'scene1'
+            },
+            'images': {
+              'image1': {
+                'x': 0,
+                'y': 0,
+                'w': 240,
+                'h': 240
+              }
+            },
+            'actions': {
+              'openTargetUrl': {
+                'type': 'web',
+                'text': params.text,
+                'params': {
+                  'linkUri': params.targetUrl
+                }
+              }
+            },
+            'scenes': {
+              'scene1': {
+                'draws': [
+                  {
+                    'image': 'image1',
+                    'x': 0,
+                    'y': 0,
+                    'w': 240,
+                    'h': 240
+                  }
+                ],
+                'listeners': [
+                  {
+                    'type': 'touch',
+                    'params': [0, 0, 240, 240],
+                    'action': 'openTargetUrl'
+                  }
+                ]
+              }
+            }
+          })
         }
       }
     },
