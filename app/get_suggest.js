@@ -7,11 +7,11 @@ function *getSuggest(query) {
   try {
     let response = yield request({
       method: 'GET',
-      url: autocompleteUrl,
+      url: autocompleteUrl
     });
 
     return JSON.parse(response);
-  } catch(e) {
+  } catch (e) {
     // statements
     console.log(e);
     return [];
