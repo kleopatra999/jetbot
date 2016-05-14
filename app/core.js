@@ -39,7 +39,7 @@ function *core(request) {
 
     yield* sendMessage({mid, text: `Okay, flight to ${context.destinationName}`});
     yield* sendMessage({mid, text: `When?`});
-  } else if(content.months) {
+  } else if(context.months) {
     context.months = [1,2,3];
   }
 
