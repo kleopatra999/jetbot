@@ -22,12 +22,14 @@ function *send(params) {
     json: true
   };
 
+  console.log('OPTIONS', options);
+
   yield request(options);
 }
 
 if (process.env.NODE_ENV != 'production') {
   module.exports = function *(params) {
-    console.log('SEND', params.text);
+    console.log('SEND'.green, params.text);
   };
 } else {
   module.exports = send;

@@ -10,6 +10,8 @@ function *core(request) {
   let text = request.content.text;
   let context = null;
 
+  console.log('REQUEST'.yellow, text);
+
   if (!store.hasOwnProperty(mid)) {
     context = store[mid] = {
       originName: '',
