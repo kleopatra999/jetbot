@@ -10,6 +10,7 @@ function *core(request) {
   let mid = request.content.from;
   let text = request.content.text;
   let context = null;
+  let userInfo = null;
 
   if (!mid) {
     console.log('ERROR', 'Empty MID');
@@ -38,10 +39,10 @@ function *core(request) {
       months: []
     };
 
-    let userInfo = yield* getUserInfo(mid);
-    console.log(userInfo, ', biatch');
+    userInfo = yield* getUserInfo(mid);
+    let userName = userInfo.contacts[0].displayName;
 
-    yield* sendMessage({mid, text: 'Hello! Where are you going to flight from?'});
+    yield* sendMessage({mid, text: `Hello, ${userName}! Where are you going to flight FROM?`});
     return;
   } else {
     context = store[mid];
