@@ -75,7 +75,10 @@ function *core(request) {
 
     context.months = parseMonths(words);
 
-    yield* textMessage({mid, text: `Hello, ${userName}! WELCOME MESSAGE`});
+    if (!isPartiallyFilled(context)) {
+      yield* textMessage({mid, text: `Hello, ${userName}!\nTell me your destination and where are you going. For example "I'm going to Phuket from Bangkok" or "what about from Bangkok to Tokyo?"`});
+    }
+
   } else {
     context = store[mid];
   }
@@ -238,6 +241,10 @@ function monthsToString(months, short) {
 
 function isFilled(context) {
   return context.originName && context.destinationName && context.months.length;
+}
+
+function isPartiallyFilled(context) {
+  return context.originName || context.destinationName || context.months.length;
 }
 
 module.exports = core;
