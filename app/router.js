@@ -13,6 +13,6 @@ router.get('/ping', function *(next) {
   };
 });
 
-router.get('/receive', require('./bot'));
+router.post('/receive', require('./bot'));
 
 module.exports = router;
