@@ -19,6 +19,8 @@ function *core(request) {
   let context = null;
   let userInfo = null;
 
+  console.log('REQUEST', request);
+
   if (!mid) {
     console.log('ERROR', 'Empty MID');
     return;
@@ -121,8 +123,8 @@ function *core(request) {
 
     } else {
 
-      yield* textMessage({mid, text: `Where are you going to flight FROM?`});
-      context.state = STATE_ASK_ORIGIN;
+      yield* textMessage({mid, text: `:)`});
+      context.state = STATE_START;
 
     }
   };
