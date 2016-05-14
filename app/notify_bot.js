@@ -9,7 +9,8 @@ function *notifyBot() {
   let departDate = notification.depart_date;
   let returnDate = notification.return_date;
   let title = notification.title;
-  let text = `We've found a ticket! ${title}. Depart date is ${departDate}; return date is ${returnDate}`;
+  let url = notification.url;
+  let text = `We've found a ticket! ${title}. Depart date is ${departDate}; return date is ${returnDate} \n; here you go: ${url}`;
 
   console.log(notification)
   console.log(mid, text)
