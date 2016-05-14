@@ -137,7 +137,9 @@ function *linkMessage(params) {
         'textParams': {
           'text': params.text
         },
-        'linkUriParams': params.targetUrl
+        'linkUriParams': {
+          'lu_p': params.targetUrl
+        }
       }
     },
     json: true
