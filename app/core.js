@@ -72,7 +72,7 @@ function *core(request) {
       context.destinationIata = destination.iata;
     }
 
-    yield* sendMessage({mid, text: `Hello, ${userName}! WELCOME MESSAGE`});
+    yield* textMessage({mid, text: `Hello, ${userName}! WELCOME MESSAGE`});
   } else {
     context = store[mid];
   }
@@ -82,19 +82,19 @@ function *core(request) {
 
       // Send user message about what data we have in context.
       if (context.originName && context.destinationName) {
-        yield* sendMessage({mid, text: `Okay, flight from ${context.originName} to ${context.destinationName}.`});
-        yield* sendMessage({mid, text: `When?`});
+        yield* textMessage({mid, text: `Okay, flight from ${context.originName} to ${context.destinationName}.`});
+        yield* textMessage({mid, text: `When?`});
         context.state = STATE_ASK_MONTHS;
       } else if (context.originName) {
-        yield* sendMessage({mid, text: `Okay, flight from ${context.originName}.`});
-        yield* sendMessage({mid, text: `Where are you going TO?`});
+        yield* textMessage({mid, text: `Okay, flight from ${context.originName}.`});
+        yield* textMessage({mid, text: `Where are you going TO?`});
         context.state = STATE_ASK_DESTINATION;
       } else if (context.destinationName) {
-        yield* sendMessage({mid, text: `Okay, flight to ${context.destinationName}.`});
-        yield* sendMessage({mid, text: `Where are you going to flight FROM?`});
+        yield* textMessage({mid, text: `Okay, flight to ${context.destinationName}.`});
+        yield* textMessage({mid, text: `Where are you going to flight FROM?`});
         context.state = STATE_ASK_ORIGIN;
       } else {
-        yield* sendMessage({mid, text: `Where are you going to flight FROM?`});
+        yield* textMessage({mid, text: `Where are you going to flight FROM?`});
         context.state = STATE_ASK_ORIGIN;
       }
 
