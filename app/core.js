@@ -10,6 +10,16 @@ function *core(request) {
   let text = request.content.text;
   let context = null;
 
+  if (!mid) {
+    console.log('ERROR', 'Empty MID');
+    return;
+  }
+
+  if (!text) {
+    console.log('ERROR', 'Empty text');
+    return;
+  }
+
   console.log('REQUEST'.yellow, text);
 
   if (!store.hasOwnProperty(mid)) {
