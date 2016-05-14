@@ -23,6 +23,7 @@ function *createSubscription(params) {
   }));
 
   let url = `http://beta.jetradar.com/subscriptions/create?email=${email}&activate_subscriber=true&recieve_news=false&web_push_enabled=false&email_enabled=false&line_enabled=true&line_id=${params.mid}&subscription=${subscriptionParams}&lang=en`;
+  url = url.replace(/[\n\s]*/g,'');
 
   try {
     console.log(url);
