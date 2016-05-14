@@ -16,7 +16,7 @@ function *send(params) {
       'content': {
         'contentType': 1,
         'toType': 1,
-        'text': params.text
+        'text': params.text || 'Something went wrong, sorry…'
       }
     },
     json: true
