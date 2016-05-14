@@ -134,6 +134,7 @@ if (process.env.NODE_ENV != 'production') {
     richMessage: function *(params) {
       console.log('RICH SEND'.blue, params.text);
     }
+  }
 } else {
   module.exports = {
     textMessage: textMessage,
