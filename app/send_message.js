@@ -22,8 +22,6 @@ function *textMessage(params) {
     json: true
   };
 
-  console.log('OPTIONS', options);
-
   yield request(options);
 }
 
@@ -47,8 +45,6 @@ function *imageMessage(params) {
     },
     json: true
   };
-
-  console.log('OPTIONS', options);
 
   yield request(options);
 }
@@ -120,8 +116,6 @@ function *richMessage(params) {
     },
     json: true
   };
-
-  console.log('OPTIONS', options);
 
   yield request(options);
 }

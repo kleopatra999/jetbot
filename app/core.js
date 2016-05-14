@@ -82,24 +82,34 @@ function *core(request) {
       destinationIata: '',
       months: []
     };
+  } else {
+    context = store[mid];
+  }
+
+  const parseText = function*() {
+    let success = false;
 
     let origin = yield* parsePlace('from', words);
     if (origin) {
       context.originName = origin.name;
       context.originIata = origin.iata;
+      success = true;
     }
 
     let destination = yield* parsePlace('to', words);
     if (destination) {
       context.destinationName = destination.name;
       context.destinationIata = destination.iata;
+      success = true;
     }
 
     context.months = parseMonths(words);
+    if (context.months.length) {
+      success = true;
+    }
 
-  } else {
-    context = store[mid];
-  }
+    return success;
+  };
 
   const detectNextState = function*() {
     // Send user message about what data we have in context.
@@ -130,9 +140,13 @@ function *core(request) {
 
     } else {
 
-      yield* textMessage({mid, text: `:)`});
-      context.state = STATE_START;
-
+      let success = yield* parseText();
+      if (success) {
+        yield* detectNextState();
+      } else {
+        yield* textMessage({mid, text: `¯\_(ツ)_/¯`});
+        context.state = STATE_START;
+      }
     }
   };
 
