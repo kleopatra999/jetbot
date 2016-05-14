@@ -14,6 +14,8 @@ let STATE_ASK_MONTHS = 'STATE_ASK_MONTHS';
 let STATE_FINISH = 'STATE_FINISH';
 
 function *core(request) {
+  console.log('REQUEST', request);
+
   let mid = request.content.from;
   let text = request.content.text;
   let opType = request.content.opType;
@@ -30,8 +32,6 @@ function *core(request) {
   }
 
   let context = null;
-
-  console.log('REQUEST', request);
 
   if (!mid) {
     console.log('ERROR', 'Empty MID');
