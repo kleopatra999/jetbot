@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-echo "$@"
 curl -H "Content-Type: application/json" \
     -X POST \
     -d '{
@@ -12,7 +11,7 @@ curl -H "Content-Type: application/json" \
       "to":["12345"],
       "toType":1,
       "contentMetadata":null,
-      "text":"'"$@"'"
+      "text":"'"$*"'"
     }
   }
 ]}' \
