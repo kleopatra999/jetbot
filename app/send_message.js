@@ -134,7 +134,9 @@ function *linkMessage(params) {
       'content': {
         'templateId': 'price_alert',
         'previewUrl': params.imageUrl,
-        'textParams': params.text,
+        'textParams': {
+          'text': params.text
+        },
         'linkUriParams': params.targetUrl
       }
     },
