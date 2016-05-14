@@ -2,7 +2,7 @@
 const request = require('request-promise');
 
 function *getSuggest(query) {
-  const autocompleteUrl = `http://www.jetradar.com/autocomplete/places?q=${query}&with_countries=false&locale=en`;
+  const autocompleteUrl = `http://www.jetradar.com/autocomplete/places?q=${encodeURIComponent(query)}&with_countries=false&locale=en`;
 
   try {
     let response = yield request({
