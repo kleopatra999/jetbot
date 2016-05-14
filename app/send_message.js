@@ -122,6 +122,7 @@ send.rich = function *rich(params) {
   };
 
   console.log('OPTIONS', options);
+  console.log('contentMetadata', options.content.contentMetadata);
 
   yield request(options);
 }
