@@ -13,10 +13,10 @@ function *notifyBot() {
 
   console.log(notification)
   console.log(mid, text)
-  textMessage({
+  yield* textMessage({
     mid: mid,
     text: text
-  })
+  });
 
   this.body = {
     ok: true
