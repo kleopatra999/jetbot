@@ -26,11 +26,9 @@ function *bot(next) {
 function *send(message, params) {
   const options = {
     method: 'POST',
-    url: 'https://trialbot-api.line.me/v1/events',
+    url: 'https://api.line.me/v1/events',
     headers: {
-      'X-Line-ChannelID': CHANNEL_ID,
-      'X-Line-ChannelSecret': CHANNEL_SECRET,
-      'X-Line-Trusted-User-With-ACL': params.fromId
+      'X-LINE-ChannelToken': '6BlHqpsKmwNPlxSbppx1bxDVIvqmJD3wGk8/+XYAs5gSaTaUivxeImbm+37rKU1qNgwg8FD09QsYIjbHc6Tvqptn186izvhKQqqBMMFOaB+xMikqtRnU5ds9zpq3k2ZpyY89kiBglxxZl0qvUrdyX618BSl7lGXPAT9HRw/DX2c='
     },
     body: {
       "to": [ params.userMid ],
