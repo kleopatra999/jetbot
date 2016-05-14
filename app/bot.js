@@ -6,7 +6,7 @@ function *bot(next) {
     ok: true
   };
   console.log(this.request.body);
-  console.log(this.request.body[0].result.content);
+  console.log(this.request.body.result[0].content);
 }
 
 module.exports = bot;
