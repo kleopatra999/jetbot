@@ -1,3 +1,2 @@
 #!/usr/bin/env bash
-git pull --rebase heroku master
-git push heroku master
+git push --force heroku master
