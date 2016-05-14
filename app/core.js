@@ -49,7 +49,7 @@ function *core(request) {
   }
 
   if (text == 'img') {
-    yield* sendMessage.image({min, url: "http://pics.avs.io/240/240/PG.png"});
+    yield* sendMessage.image({mid, url: "http://pics.avs.io/240/240/PG.png"});
     return;
   }
 
