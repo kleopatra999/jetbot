@@ -8,6 +8,6 @@ const app = koa();
 app.use(logger);
 app.use(router.routes());
 
-const port = process.env.NODE_ENV || 3000;
+const port = process.env.NODE_PORT || 3000;
 app.listen(port);
 console.log(`Starting server at ` + `http://localhost:${port}`.yellow);
