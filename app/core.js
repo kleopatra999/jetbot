@@ -144,7 +144,7 @@ function *core(request) {
       if (success) {
         yield* detectNextState();
       } else {
-        yield* textMessage({mid, text: `¯\_(ツ)_/¯`});
+        yield* textMessage({mid, text: `¯\\_(ツ)_/¯`});
         context.state = STATE_START;
       }
     }
