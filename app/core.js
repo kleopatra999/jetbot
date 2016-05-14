@@ -38,7 +38,7 @@ function *core(request) {
       months: []
     };
 
-    let userInfo = getUserInfo(mid);
+    let userInfo = yield* getUserInfo(mid);
     console.log(userInfo && userInfo.displayName, ', biatch');
 
     yield* sendMessage({mid, text: 'Hello! Where are you going to flight from?'});
