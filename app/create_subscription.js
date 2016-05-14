@@ -26,16 +26,15 @@ function *createSubscription(params) {
   url = url.replace(/[\n\s]*/g,'');
 
   try {
-    console.log(url);
     let response = yield request({
       method: 'GET',
-      url: url,
+      url: url
     });
 
     return JSON.parse(response);
-  } catch(e) {
+  } catch (e) {
     // statements
-    console.log(e);
+    console.log('ERROR'.red, e);
     return [];
   }
 }

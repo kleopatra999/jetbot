@@ -13,7 +13,7 @@ function *getSuggest(query) {
     return JSON.parse(response);
   } catch (e) {
     // statements
-    console.log(e);
+    console.log('ERROR'.red, e);
     return [];
   }
 }

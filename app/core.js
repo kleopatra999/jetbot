@@ -11,6 +11,7 @@ let STATE_START = 'STATE_START';
 let STATE_ASK_ORIGIN = 'STATE_ASK_ORIGIN';
 let STATE_ASK_DESTINATION = 'STATE_ASK_DESTINATION';
 let STATE_ASK_MONTHS = 'STATE_ASK_MONTHS';
+let STATE_FINISH = 'STATE_FINISH';
 
 function *core(request) {
   let mid = request.content.from;
@@ -72,31 +73,53 @@ function *core(request) {
       context.destinationIata = destination.iata;
     }
 
+    context.months = parseMonths(words);
+
     yield* textMessage({mid, text: `Hello, ${userName}! WELCOME MESSAGE`});
   } else {
     context = store[mid];
   }
 
+  const detectNextState = function*() {
+    // Send user message about what data we have in context.
+    if (context.originName && context.destinationName && context.months.length) {
+
+      yield* textMessage({
+        mid,
+        text: `Okay, flight from ${context.originName} to ${context.destinationName} in ${monthsToString(context.months)}.`
+      });
+
+    } else if (context.originName && context.destinationName) {
+
+      yield* textMessage({mid, text: `Okay, flight from ${context.originName} to ${context.destinationName}.`});
+      yield* textMessage({mid, text: `When?`});
+      context.state = STATE_ASK_MONTHS;
+
+    } else if (context.originName) {
+
+      yield* textMessage({mid, text: `Okay, flight from ${context.originName}.`});
+      yield* textMessage({mid, text: `Where are you going TO?`});
+      context.state = STATE_ASK_DESTINATION;
+
+    } else if (context.destinationName) {
+
+      yield* textMessage({mid, text: `Okay, flight to ${context.destinationName}.`});
+      yield* textMessage({mid, text: `Where are you going to flight FROM?`});
+      context.state = STATE_ASK_ORIGIN;
+
+    } else {
+
+      yield* textMessage({mid, text: `Where are you going to flight FROM?`});
+      context.state = STATE_ASK_ORIGIN;
+
+    }
+  };
+
+
   switch (context.state) {
     case STATE_START:
 
-      // Send user message about what data we have in context.
-      if (context.originName && context.destinationName) {
-        yield* textMessage({mid, text: `Okay, flight from ${context.originName} to ${context.destinationName}.`});
-        yield* textMessage({mid, text: `When?`});
-        context.state = STATE_ASK_MONTHS;
-      } else if (context.originName) {
-        yield* textMessage({mid, text: `Okay, flight from ${context.originName}.`});
-        yield* textMessage({mid, text: `Where are you going TO?`});
-        context.state = STATE_ASK_DESTINATION;
-      } else if (context.destinationName) {
-        yield* textMessage({mid, text: `Okay, flight to ${context.destinationName}.`});
-        yield* textMessage({mid, text: `Where are you going to flight FROM?`});
-        context.state = STATE_ASK_ORIGIN;
-      } else {
-        yield* textMessage({mid, text: `Where are you going to flight FROM?`});
-        context.state = STATE_ASK_ORIGIN;
-      }
+      yield* detectNextState();
 
       break;
 
@@ -108,7 +131,7 @@ function *core(request) {
         context.originIata = suggestOrigin[0].code;
       }
 
-      context.state = STATE_START;
+      yield* detectNextState();
 
       break;
 
@@ -120,29 +143,41 @@ function *core(request) {
         context.destinationIata = suggestDestination[0].code;
       }
 
-      context.state = STATE_START;
+      yield* detectNextState();
 
       break;
 
     case STATE_ASK_MONTHS:
 
       context.months = parseMonths(words);
+
+      if (context.months.length) {
+        yield* detectNextState();
+      } else {
+        yield* textMessage({mid, text: `Please, repeat when?`});
+        context.state = STATE_ASK_MONTHS;
+      }
+
+      break;
+
+    case STATE_FINISH:
+
       context.state = STATE_START;
 
       break;
   }
 
   if (isFilled(context)) {
-    let params = store[mid]
-    yield* textMessage({mid, text: `Okay, i say you when cheap price`});
-    let result = yield* createSubscription({
-      mid: mid,
-      origin: {iata: params.originIata},
-      destination: {iata: params.destinationIata},
-      months: params.months
+    yield* textMessage({mid, text: `Subscription created!`});
+
+    yield* createSubscription({
+      mid,
+      origin: {iata: context.originIata},
+      destination: {iata: context.destinationIata},
+      months: context.months
     });
-    console.log(result);
-    console.log('success!');
+
+    console.log('SUBSCRIPTION CREATED'.green, `${context.originIata} -> ${context.destinationIata} [${monthsToString(context.months, true)}]`);
     delete store[mid];
   }
 }
@@ -175,18 +210,18 @@ function *parsePlace(preposition, words) {
   return false;
 }
 
-function parseMonths(words) {
-  const months = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
-  const monthsShort = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+const MONTHS = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
+const MONTHS_SHORT = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
 
+function parseMonths(words) {
   let foundedMonths = [];
 
   words.forEach((word) => {
-    let month = months.indexOf(word);
+    let month = MONTHS.indexOf(word);
     if (~month) {
       foundedMonths.push(month);
     } else {
-      let month = monthsShort.indexOf(word);
+      let month = MONTHS_SHORT.indexOf(word);
       if (~month) {
         foundedMonths.push(month);
       }
@@ -194,6 +229,11 @@ function parseMonths(words) {
   });
 
   return foundedMonths;
+}
+
+function monthsToString(months, short) {
+  short = short || false;
+  return months.map(i => (short ? MONTHS_SHORT : MONTHS)[i]).join(', ');
 }
 
 function isFilled(context) {
