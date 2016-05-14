@@ -13,13 +13,29 @@ function *bot(next) {
   let fromId = result.from;
   let userMid = result.content.from;
 
-  console.log(this.request.body);
-  console.log(result.from);
+  let suggest = yield* getSuggest(result.content.text);
+
+
+  console.log(suggest[0].title);
+
+  // console.log(this.request.body);
+  // console.log(result.from);
   console.log(result.content);
 
   yield* send('Hello, world', {
     channelMid: fromId,
-    userMid: userMid
+    userMid: userMid,
+    text: suggest[0].title
+  });
+}
+
+function *getSuggest(query) {
+  const autocompleteUrl = 'http://www.jetradar.com/autocomplete/places'
+
+  return yield request.get(autocompleteUrl, {
+    q: query,
+    with_countries: false,
+    locale: 'en'
   });
 }
 
@@ -37,7 +53,7 @@ function *send(message, params) {
       "content":{
         'contentType': 1,
         'toType': 1,
-        'text': 'Витя Лох'
+        'text': params.text
       }
     },
     json: true
