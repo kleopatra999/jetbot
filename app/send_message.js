@@ -143,6 +143,7 @@ function *linkMessage(params) {
     json: true
   };
 
+  console.log('LINK OPTIONS', options);
   yield request(options);
 }
 
