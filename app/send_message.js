@@ -132,7 +132,7 @@ function *linkMessage(params) {
       'toChannel': 1341301715,
       'eventType': '137299299800026303',
       'content': {
-        'templateId': 'price_alert_03',
+        'templateId': 'price_alert_04',
         'previewUrl': params.imageUrl,
         'textParams': {
           'text': params.text
