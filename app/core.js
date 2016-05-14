@@ -57,12 +57,13 @@ function *core(request) {
 
   if (isFilled(context)) {
     //
+    delete store[mid];
     yield* sendMessage({mid, text: `Okay, i say you when cheap price`});
   }
 }
 
 function isFilled(context) {
-  return ;
+  return context.originName && context.destinationName && context.months;
 }
 
 module.exports = core;
