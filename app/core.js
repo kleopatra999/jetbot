@@ -29,7 +29,7 @@ function *core(request) {
   }
 
   if (text == 'test rich') {
-    yield* richMesage({mid, text: 'test message', imageUrl: 'http://pics.avs.io/240/240/PG.png', targetUrl: 'http://www.jetradar.com/'});
+    yield* richMesage({mid, text: 'test message', imageUrl: 'http://beta.jetradar.com/graph.png?w=240&h=240&last_prices=257&average_price=327', targetUrl: 'http://www.jetradar.com/'});
     return;
   }
 
