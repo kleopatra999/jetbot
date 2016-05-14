@@ -9,11 +9,6 @@ function *bot() {
   let userMid = result.content.from;
   let response = yield* core(result);
 
-  yield* sendMessage({
-    mid: userMid,
-    text: response
-  });
-
   this.body = {
     ok: true
   };
