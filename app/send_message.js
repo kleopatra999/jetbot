@@ -134,11 +134,11 @@ function *linkMessage(params) {
       'content': {
         'templateId': 'subscription_notification',
         'textParams': {
-          'origin_city': params.originCity,
-          'destination_city': params.destinationCity
+          "origin_city": params.originCity,
+          "destination_city": params.destinationCity
         },
         "subTextParams": {
-          sub_text: params.priceChaned
+          "sub_text": params.priceChaned
         },
         "linkUriParams":{
           "url_param": params.urlParam,
