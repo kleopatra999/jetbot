@@ -3,6 +3,7 @@ const getSuggest = require('./get_suggest');
 const {textMessage, imageMessage, richMessage, linkMessage} = require('./send_message');
 const getUserInfo = require('./user_info');
 const createSubscription = require('./create_subscription');
+const getCheapest = require('./calendar_api');
 
 // TODO: Clean context after 1h timeout;
 let store = {};
@@ -200,12 +201,17 @@ function *core(request) {
   }
 
   if (isFilled(context)) {
+    let cheapestPrice = yield* getCheapest({
+      origin: {iata: context.originIata},
+      destination: {iata: context.destinationIata},
+      months: context.months
+    });
     yield* textMessage({mid, text: `Great!`});
+    yield* textMessage({mid, text: `Now flight from ${context.originIata} to ${context.destinationIata} costs ${cheapestPrice} USD. I'll write you when price changes!`});
 
     if (context.destinationIata == 'MOW') {
       yield* imageMessage({mid, url: 'https://line-hack-jetradar.herokuapp.com/bear.jpg'});
     }
-
     yield* createSubscription({
       mid,
       origin: {iata: context.originIata},
