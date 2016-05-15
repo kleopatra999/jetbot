@@ -15,20 +15,21 @@ function *notifyBot() {
 
   let originCity = cities.split(' - ')[0]
   let destinationCity = cities.split(' - ')[1];
-  let priceChanged = title.split('changed! ')[1]
+  let priceChanged = title.split('changed! ')[1];
+  let iconParam = notification.icon;
 
-  console.log(originCity, urlParam, destinationCity, priceChanged);
+  console.log(originCity, urlParam, destinationCity, priceChanged, iconParam);
 
   yield* linkMessage({
     mid: mid,
     originCity: originCity,
     destinationCity: destinationCity,
     urlParam: urlParam,
-    priceChanged: priceChanged
+    priceChanged: priceChanged,
+    iconParam: iconParam
   })
 
   console.log(notification)
-  console.log(mid, text)
   // yield* textMessage({
   //   mid: mid,
   //   text: text
