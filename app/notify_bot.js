@@ -24,9 +24,9 @@ function *notifyBot() {
     mid: mid,
     originCity: originCity,
     destinationCity: destinationCity,
-    urlParam: urlParam + '/240',
+    urlParam: urlParam,
     priceChanged: priceChanged,
-    iconParam: iconParam
+    iconParam: iconParam + '/240'
   })
 
   console.log(notification)
