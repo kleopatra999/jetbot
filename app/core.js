@@ -206,7 +206,7 @@ function *core(request) {
     yield* textMessage({mid, text: `Great!`});
 
     if (context.destinationIata == 'MOW') {
-      yield* imageMessage({mid, url: 'http://localhost:3000/bear.jpg'});
+      yield* imageMessage({mid, url: 'https://line-hack-jetradar.herokuapp.com/bear.jpg'});
     }
 
     yield* createSubscription({
