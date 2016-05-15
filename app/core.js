@@ -206,7 +206,7 @@ function *core(request) {
     yield* textMessage({mid, text: `Great!`});
 
     if (context.destinationIata == 'MOW') {
-      yield* imageMessage({mid, url: 'http://cdn.theatlantic.com/assets/media/img/mt/2015/04/we_can_do_it-1/lead_960.jpg?1430144038'});
+      yield* imageMessage({mid, url: 'http://localhost:3000/bear.jpg'});
     }
 
     yield* createSubscription({
