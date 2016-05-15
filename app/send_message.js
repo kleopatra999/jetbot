@@ -139,7 +139,7 @@ function *linkMessage(params) {
         },
         "subTextParams": {
           sub_text: params.priceChaned
-        }
+        },
         "linkUriParams":{
           "url_param": params.urlParam,
         }
