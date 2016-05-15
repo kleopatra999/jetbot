@@ -15,7 +15,8 @@ function *notifyBot() {
 
   let originCity = cities.split(' - ')[0]
   let destinationCity = cities.split(' - ')[1];
-  text = url;
+
+  console.log(originCity, urlParam, destinationCity);
 
   yield* linkMessage({
     mid: mid,
