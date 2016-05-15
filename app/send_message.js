@@ -133,7 +133,7 @@ function *linkMessage(params) {
       'eventType': '137299299800026303',
       'content': {
         'templateId': 'subscription_notification_4',
-        'previewImageUrl': params.iconParam,
+        'previewUrl': params.iconParam,
         'textParams': {
           "origin_city": params.originCity,
           "destination_city": params.destinationCity
