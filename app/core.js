@@ -116,7 +116,7 @@ function *core(request) {
     // Send user message about what data we have in context.
     if (context.originName && context.destinationName && context.months.length) {
 
-      context.state = STATE_START;
+      context.state = STATE_FINISH;
 
     } else if (context.originName && context.destinationName) {
 
