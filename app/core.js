@@ -24,10 +24,9 @@ function *core(request) {
     mid = request.content.params[0];
     let userName = yield* getUserName(mid);
 
-    yield* textMessage({
-      mid,
-      text: `Hello, ${userName}!\nTell me your destination and where are you going. For example "I'm going to Phuket from Bangkok" or "what about from Bangkok to Tokyo?"`
-    });
+    yield* textMessage({mid, text: `Hello, ${userName}!\nI will search best flights for you.`});
+
+    yield* textMessage({mid, text: `Tell me your destination and where are you going. For example "I'm going to Phuket from Bangkok" or "what about from Bangkok to Tokyo?"`});
     return;
   }
 
