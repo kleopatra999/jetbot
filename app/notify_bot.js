@@ -15,7 +15,7 @@ function *notifyBot() {
 
   let originCity = cities.split(' - ')[0]
   let destinationCity = cities.split(' - ')[1];
-  let priceChanged = title.split('changed! ')[1];
+  let priceChanged = title.split('changed! ')[1] || ' ';
   let iconParam = notification.icon;
 
   console.log(originCity, urlParam, destinationCity, priceChanged, iconParam);
