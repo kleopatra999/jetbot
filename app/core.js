@@ -207,7 +207,7 @@ function *core(request) {
       months: context.months
     });
     yield* textMessage({mid, text: `Great!`});
-    yield* textMessage({mid, text: `Now flight from ${context.originIata} to ${context.destinationIata} costs ${cheapestPrice} USD. I'll write you when price changes!`});
+    yield* textMessage({mid, text: `Now flight from ${context.originName} to ${context.destinationName} costs ${cheapestPrice} USD. I'll write you when price changes!`});
 
     if (context.destinationIata == 'MOW') {
       yield* imageMessage({mid, url: 'https://line-hack-jetradar.herokuapp.com/bear.jpg'});

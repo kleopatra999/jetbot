@@ -8,6 +8,7 @@ function *getCheapest(params) {
 
   let months = "";
   params.months.forEach((month) => {
+    month = month + 1;
     if (month<10 && month>=nowMonth) {
       months = `${months}&calendar_request[depart_months][]=${nowYear}-0${month}-01`;
     } else if (month>=10 && month>=nowMonth) {
