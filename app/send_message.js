@@ -132,10 +132,13 @@ function *linkMessage(params) {
       'toChannel': 1341301715,
       'eventType': '137299299800026303',
       'content': {
-        'templateId': 'subscription_notification_2',
+        'templateId': 'subscription_notification',
         'textParams': {
           "origin_city": params.originCity,
           "destination_city": params.destinationCity
+        },
+        "subTextParams": {
+          "sub_param": params.priceChanged
         },
         "linkUriParams":{
           "url_param": params.urlParam,
