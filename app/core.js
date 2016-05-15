@@ -115,10 +115,7 @@ function *core(request) {
     // Send user message about what data we have in context.
     if (context.originName && context.destinationName && context.months.length) {
 
-      yield* textMessage({
-        mid,
-        text: `Okay, flight from ${context.originName} to ${context.destinationName} in ${monthsToString(context.months)}.`
-      });
+      context.state = STATE_START;
 
     } else if (context.originName && context.destinationName) {
 
