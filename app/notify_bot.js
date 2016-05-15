@@ -15,6 +15,7 @@ function *notifyBot() {
 
   let originCity = cities.split(' - ')[0]
   let destinationCity = cities.split(' - ')[1];
+  let priceChanged = title.split('changed! ')[1]
 
   console.log(originCity, urlParam, destinationCity);
 
@@ -22,7 +23,8 @@ function *notifyBot() {
     mid: mid,
     originCity: originCity,
     destinationCity: destinationCity,
-    urlParam: urlParam
+    urlParam: urlParam,
+    priceChanged: priceChanged
   })
 
   console.log(notification)

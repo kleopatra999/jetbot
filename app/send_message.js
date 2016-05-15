@@ -137,6 +137,9 @@ function *linkMessage(params) {
           'origin_city': params.originCity,
           'destination_city': params.destinationCity
         },
+        "subTextParams": {
+          sub_text: params.priceChaned
+        }
         "linkUriParams":{
           "url_param": params.urlParam,
         }
