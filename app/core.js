@@ -1,6 +1,6 @@
 "use strict";
 const getSuggest = require('./get_suggest');
-const {textMessage, richMessage, linkMessage} = require('./send_message');
+const {textMessage, imageMessage, richMessage, linkMessage} = require('./send_message');
 const getUserInfo = require('./user_info');
 const createSubscription = require('./create_subscription');
 
@@ -203,7 +203,11 @@ function *core(request) {
   }
 
   if (isFilled(context)) {
-    yield* textMessage({mid, text: `Subscription created!`});
+    yield* textMessage({mid, text: `Great!`});
+
+    if (context.destinationIata == 'MOW') {
+      yield* imageMessage({mid, url: 'http://cdn.theatlantic.com/assets/media/img/mt/2015/04/we_can_do_it-1/lead_960.jpg?1430144038'});
+    }
 
     yield* createSubscription({
       mid,

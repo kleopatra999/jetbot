@@ -160,6 +160,9 @@ if (process.env.NODE_ENV != 'production') {
     richMessage: function *(params) {
       console.log('RICH SEND'.blue, params.text);
     },
+    imageMessage: function *(params) {
+      console.log('SEND'.green, params.url);
+    },
     linkMessage: function *(params) {
       console.log('LINK SEND'.red, params.text);
     }
